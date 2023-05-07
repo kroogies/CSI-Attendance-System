@@ -1,3 +1,24 @@
+# The very important part of this project. The main program itself, the core of this project.
+# Note that this window will only start or run if log in is successful. More about the log in feature will be
+# discussed inside the login.py module.
+# Inside this main_program module lies two main important buttons. The Employees and Reports Buttons.
+# When the Employees button is pressed, the display of the main_program window changes and shows
+# a table of the employees with their personal details and their ID/RFID tag.
+# A list of buttons also shows up, namely; the Add, Edit, View, and Delete buttons. More about them will be individually
+# explained inside their respective modules.
+# Another important feature of this main_program module is the checkbox feature, which is very important
+# to be able to select the employee profile that you want to execute actions on.
+# To explain the checkbox feature in detail: Here's an overview.
+# The general idea of the checkbox feature is that for every employee inside the database,
+# a checkbox is created with an ID/RFID tag respectively assigned to them. So, if a checkbox with an ID/RFID tag
+# assigned to it is checked, inside the shared.py module, a variable named data_passing_var2 whose value is None,
+# changes to the assigned ID/RFID tag of the checked checkbox. The assigned ID/RFID tag is very important
+# as it is the main mode of communication for multiple module variable communication. data_passing_var2 is used
+# to know whose employee profile is to view, or to edit, or to delete.
+# Also, this window or module has a refresh feature that automatically refreshes the window to show real-time
+# changes based on database changes, like for example: a new employee profile was created, or an existing one
+# was edited. All of it will instantly show inside the table display of this window.
+
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox

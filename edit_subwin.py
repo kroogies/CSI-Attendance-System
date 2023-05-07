@@ -1,3 +1,24 @@
+# The name edit_sub_win stands for Edit Sub Window, ok? Inside this module you can edit an employee's
+# personal details, like the employee's name, number, or sex, or position, and so on and so forth.
+# The layout of this module is similar to the add_sub_win module. If the field conditions are met, like:
+# Don't put numbers inside the name field, or follow the email format or else I won't update the values you want to
+# edit. And so on and so forth. If the conditions are met, an SQL query that contains the command to change
+# the values you want to edit is therefore executed, and a pop-up message saying "Edits successfully made" will
+# show up if the command was indeed successfully executed.
+# Also, inside this module lies a button with text inside it saying 'Open Employee's Attendance' can be found.
+# If pressed, this button opens up a new window or rather initiates or runs the edit_attendance_module window.
+# Inside that new window, you can edit the selected employee's attendance. More is explained about that inside
+# the edit_attendance_module.py file. Wondering how this module knows
+# whose personal details is to edit? The shared.py module contains a very important variable named:
+# data_passing_var2, whose value is None. But the value of this variable gets changed inside the main_program
+# module which contains a checkbox feature that selects whose profile you want to create actions on. The
+# checkbox feature will be given more details later on inside the main_program module. But anyway,
+# the data_passing_var2's value changes based on the profile selected inside the main_program module.
+# But here we do not use the name, the phone number, or such. We use the unique RFID tag assigned to that profile.
+# So the data_passing_var2's value will then be set to that RFID tag or let's just say the employee's ID, and
+# we use conditional statements to see if that ID is equal to this id or such:
+# We update the personal details of this employee. That's the general idea of it.
+
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
