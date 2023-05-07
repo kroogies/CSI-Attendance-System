@@ -1,3 +1,19 @@
+# The edit_attendance_module name is pretty self-explanatory. This module is used
+# to edit an employee's attendance. So say that you just opened the edit_sub_window, inside that window
+# lies a button with text saying: 'Open Employee's Attendance'.
+# If you press it, another window opens and voila, you just opened this module which initiates the edit_attendance_
+# module window. And inside this window, you can edit the employee's attendance. The time in values, or the timeout,
+# or the date, basically you can edit those values and such. Wondering how this module knows
+# whose attendance is to edit? The shared.py module contains a very important variable named:
+# data_passing_var2, whose value is None. But the value of this variable gets changed inside the main_program
+# module which contains a checkbox feature that selects whose profile you want to create actions on. The
+# checkbox feature will be given more details later on inside the main_program module. But anyway,
+# the data_passing_var2's value changes based on the profile selected inside the main_program module.
+# But here we do not use the name, the phone number, or such. We use the unique RFID tag assigned to that profile.
+# So the data_passing_var2's value will then be set to that RFID tag or let's just say the employee's ID, and
+# we use conditional statements to see if that ID is equal to this id or such:
+# We update the attendance of this employee. That's the general idea of it.
+
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox

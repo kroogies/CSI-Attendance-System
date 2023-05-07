@@ -1,3 +1,9 @@
+# The main.py module is actually a log in window. This program has only one admin account and only one.
+# We cannot add, edit, nor delete accounts, unless we have access to the MySQL localhost server.
+# The function of this module is simple. We have two entry fields, namely: USERNAME, and PASSWORD.
+# If the username AND password matches with an account inside the accounts database, log in will be successful
+# and then opens the main_program window. So you'll need to log in first before gaining access to the whole program.
+
 from tkinter import *
 from tkinter import messagebox
 from PIL import Image, ImageTk

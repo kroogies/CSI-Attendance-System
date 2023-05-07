@@ -1,3 +1,10 @@
+# So, this module is pretty self_explanatory. This window contains a table display of a certain
+# employee's attendance. The layout of this module is similar to the edit_attendance_module but the only difference
+# is inside this window, you cannot make changes to the attendance but only view it. Also, real-time
+# events can be seen inside this window, so you can consider a scenario wherein this window is open,
+# and an RFID tag/ID is scanned and records attendance of a certain employee, you can expect the new row
+# of attendance data to show up in that table display.
+
 from tkinter import *
 from tkinter import ttk
 from PIL import Image, ImageTk

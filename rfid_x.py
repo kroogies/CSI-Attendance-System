@@ -1,3 +1,22 @@
+# This is the module for the RFID reader. The RFID reader is an external device and does not
+# necessarily need to be connected to any other module as it can run on a separate thread.
+# Note, that the separate thread that runs this module will only initiate if log in is successful.
+# The RFID reader currently being used is not considered an NFC device but rather, a keyboard emulator.
+# Here we use a library to help us make reading keyboard events easier.
+# Whenever an RFID tag/ID is being scanned or read, it is considered as an individual key press.
+# So we take the values of those key presses, and modify the RFID tag/ID, so we can use it as parameters
+# for certain things. By certain things, recording attendance for every scan.
+# As I said, this is a standalone module that runs on a separate thread. So once that thread gets initiated,
+# it will keep running and running even on different parts of the program. But note, that it will not record
+# attendance if the program is minimized or closed. As the thread only runs if the program is open, so I guess it
+# isn't much of a standalone module. So those are the limitations, the program must always be open so this module
+# can keep running and make the RFID reader function.
+
+# Here's the general overview of the RFID reader module:
+# Inside this module, separate conditional statements are made for each and every RFID tag that we have available.
+# So, if the ID/RFID tag that is scanned is equivalent to this ID, record that employee's time_in, and date, and
+# timeout. So that's all.
+
 from pynput import keyboard
 from datetime import datetime
 import threading

@@ -1,3 +1,10 @@
+# This module follows a layout similar to the edit_sub_win.py module wherein in that module, you can
+# edit the employee's personal details, but in here, you can only view the selected employee's
+# personal details. And inside this module lies a button with text inside it saying 'Open Employee's Attendance'
+# that opens the view_attendance.py module or opens the view attendance window. So more details about that module
+# is discussed in its respective module. So in this view_profile module, you can only VIEW and not make
+# any changes to the employee's personal details.
+
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox

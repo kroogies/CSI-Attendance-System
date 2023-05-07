@@ -1,3 +1,29 @@
+# ADD_SUB_WIN
+# ADD_SUB_WIN stands for the 'add sub window' meaning that it is a separate window or an external window that's
+# connected to the main program. Inside this add sub window, you can create employee profiles which contain fields
+# such as first name, last name, their position, their sex, or etc. And inside this module, a unique rfid tag
+# is assigned to them automatically and the algorithm can be located within the lines 109-170, or rather inside
+# the assign_id() function. To further explain the algorithm, 2 database connections which connect to the
+# id_tags database and the employees database are initiated and data's from both databases are retrieved with the
+# MySQL connector function, .fetchall(). And the function outputs a list with the datas retrieved from the databases.
+# The list contains groups of id's with their status, henceforth looking like this:
+# [('id1', 'status'), ('id2', 'status')] 'and so on and so forth'
+# Inside the list which is [], are tuples, which are then identified as the parentheses. Inside the tuples
+# are the IDs retrieved from the id_tags database and their status. Each id has two states, one being 'used',
+# and the second being 'unused'.
+# The algorithm first loops through the list to get all, of the tuples and the tuples are then divided into their own
+# places as so to access the values inside the tuples. The algorithm then loops through the id's and see if their
+# status is 'used' or 'unused'. If it is used, it will then shift to the next id in the list and will continue
+# shifting until it finds and unused ID. If the ID is unused, it will then be assigned to the currently being created
+# employee profile.
+# In a scenario where all, of the IDs have been used up and one used ID was unassigned to a profile and turns
+# to unused, the algorithm can shift backwards or forwards if necessary to recycle any unassigned ID's as so
+# not to waste them.
+# And so, if all fields meet all the necessary conditions, like, don't put numbers inside the name fields or
+# don't put letters inside the number field, and, etc., You can then press save, and the SQL Query
+# that inserts the data inside the employees database gets executed. Congrats,
+# you just added new data into the database or have created a new employee profile.
+
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
