@@ -8,10 +8,10 @@ SETUP STEP-BY-STEP:
 Install provided attendance_system zip file.
 Install Python 3.10.9 and (MySQL 8.0.32).
 Install all necessary python libraries that were used for the project:
-- pynput
-- tkinter
-- pillow (PIL)
-- mysql.connector
+- pynput (pip install pynput)
+- tkinter (built-in)
+- pillow (PIL) (pip install pillow)
+- mysql.connector (pip install pip install mysql-connector-python)
 
 Setup new MySQL Server.
 Migrate database files (inside the zip file) and import to new MySQL Server.
