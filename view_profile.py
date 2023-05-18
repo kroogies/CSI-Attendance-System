@@ -150,7 +150,7 @@ def open_view_subwin():
     view_win.protocol("WM_DELETE_WINDOW", exit_win)
 
     if shared.data_passing_var2 is None:
-        messagebox.showinfo("View Employee Profile", "You didn't select an employee profile to view.")
+        messagebox.showinfo("View Employee Profile", "Please select an employee profile to view.")
         view_win.destroy()
 
     view_win.mainloop()

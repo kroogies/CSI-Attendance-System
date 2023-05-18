@@ -28,7 +28,7 @@ win2.title("CSI Attendance System - Log In")
 win2.resizable(False, False)
 
 # icon
-icon = Image.open("logo.png")
+icon = Image.open("window_icon.ico")
 icon2 = ImageTk.PhotoImage(icon)
 win2.iconphoto(False, icon2)
 

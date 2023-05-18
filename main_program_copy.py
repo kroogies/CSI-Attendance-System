@@ -111,7 +111,6 @@ def initiate_mprg():
         cursor7 = mydb7.cursor()
         cursor7.execute("SELECT id_number FROM employees ORDER BY id_number")
         result7 = cursor7.fetchall()
-        print(result7)
 
         for checkbtns in checkbox_canvas.grid_slaves():
             checkbtns.destroy()
