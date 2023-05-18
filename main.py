@@ -9,7 +9,7 @@ from tkinter import messagebox
 from PIL import Image, ImageTk
 import mysql.connector
 import sys
-import main_program_copy
+import main_window
 
 # initialize database
 mydb = mysql.connector.connect(
@@ -70,7 +70,7 @@ def get_login_value():
 
     if len(result) == 1:
         win2.destroy()
-        main_program_copy.initiate_mprg()
+        main_window.initiate_mprg()
 
     else:
         messagebox.showerror("Error",
@@ -98,3 +98,5 @@ cancel_btn = Button(image=final_cancelbtn, highlightthickness=0, borderwidth=0, 
 cancel_btn.place(x=250, y=210)
 
 win2.mainloop()
+
+# pyinstaller --onefile main.py --noconsole --icon=window_icon.ico --add-data "*.png;." --add-data "*.jpg;."
