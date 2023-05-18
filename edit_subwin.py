@@ -247,7 +247,7 @@ def open_edit_subwin():
     edit_win.bind("<Return>", lambda event: edit_data())
 
     if shared.data_passing_var2 is None:
-        messagebox.showinfo("Edit Employee Profile", "You didn't select an employee profile to edit.")
+        messagebox.showinfo("Edit Employee Profile", "Please select an employee profile to edit.")
         edit_win.destroy()
 
     edit_win.mainloop()
