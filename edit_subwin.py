@@ -39,6 +39,10 @@ def open_edit_subwin():
     edit_win.resizable(False, False)
     edit_win.config(bg="white")
 
+    if shared.data_passing_var2 is None:
+        messagebox.showinfo("Edit Employee Profile", "Please select an employee profile to edit.")
+        edit_win.destroy()
+
     editwin_icon = Image.open("logo.png")
     final_icon = ImageTk.PhotoImage(editwin_icon)
     edit_win.iconphoto(False, final_icon)
@@ -107,6 +111,67 @@ def open_edit_subwin():
               "______________________________________________________________________________________"
     Label(master=edit_win, text=linesep, fg='black', background="white", borderwidth=0,
           highlightthickness=0).place(x=20, y=100)
+
+    # schedule section
+    table_canvas = Canvas(master=edit_win, bg='white', highlightthickness=0,
+                          borderwidth=0, width=473, height=260)
+    table_canvas.place(x=515, y=230)
+
+    frame = Frame(table_canvas, highlightthickness=0, borderwidth=0)
+    table_canvas.create_window((0, 0), window=frame, anchor="nw")
+
+    i = 0
+    entries = []
+
+    # Display 10 entry boxes
+    db_schedule = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="minimumM4.",
+        database="employee_schedule"
+    )
+
+    schedule_cursor = db_schedule.cursor()
+    schedule_cursor.execute(f"SELECT * FROM x_{shared.data_passing_var2}")
+    res = schedule_cursor.fetchall()
+
+    # Clear existing entries
+    entries = []
+
+    # Insert fetched data into entries
+    for row_index, row_data in enumerate(res):
+        row_entries = []
+        for col_index, col_data in enumerate(row_data):
+            table = ttk.Entry(frame, font=("Century Gothic", 8), foreground="black",
+                              background="white", width=14)
+            table.config(state="normal")
+            table.grid(row=row_index, column=col_index)
+            table.insert(END, str(col_data))
+            row_entries.append(table)
+        entries.append(row_entries)
+
+        for xz in entries:
+            xz[0].config(state='readonly')
+
+    number = Label(master=edit_win, text="NO#", borderwidth=0, highlightthickness=0,
+                   font=("Century Gothic", 12), bg="white")
+    number.place(x=540, y=197)
+
+    subject = Label(master=edit_win, text="SUBJECT", borderwidth=0, highlightthickness=0,
+                    font=("Century Gothic", 12), bg="white")
+    subject.place(x=615, y=197)
+
+    desc = Label(master=edit_win, text="DESC.", borderwidth=0, highlightthickness=0,
+                 font=("Century Gothic", 12), bg="white")
+    desc.place(x=715, y=197)
+
+    days = Label(master=edit_win, text="DAYS", borderwidth=0, highlightthickness=0,
+                 font=("Century Gothic", 12), bg="white")
+    days.place(x=805, y=197)
+
+    time = Label(master=edit_win, text="TIME", borderwidth=0, highlightthickness=0,
+                 font=("Century Gothic", 12), bg="white")
+    time.place(x=898, y=197)
 
     def red_asterisk():
         # conditional block to check if the length of values inside the entries are equal to 0, or the textbox is empty
@@ -205,6 +270,15 @@ def open_edit_subwin():
 
         cursor2 = database2.cursor()
 
+        db_schedule2 = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="minimumM4.",
+            database="employee_schedule"
+        )
+
+        schedule_cursor2 = db_schedule2.cursor()
+
         sql = "UPDATE employees SET name=%s, address=%s, position=%s, sex=%s, email=%s, phone_num=%s WHERE id_number=%s"
         values = (first_name_entry.get(), address_field.get("1.0", "end-1c"), pos_entry.get(), sex_entry_field.get(),
                   email_add_entry.get(), phonenum_entry.get(), shared.data_passing_var2)
@@ -218,6 +292,39 @@ def open_edit_subwin():
 
             cursor2.execute(sql, values)
             database2.commit()
+
+            row_nums = []
+            subject_list = []
+            desc_list = []
+            days_list = []
+            time_list = []
+
+            row_nums.clear()
+            subject_list.clear()
+            desc_list.clear()
+            days_list.clear()
+            time_list.clear()
+
+            for row in entries:
+                row_num = row[0].get()
+                subject_x = row[1].get()
+                desc_x = row[2].get()
+                days_x = row[3].get()
+                time_x = row[4].get()
+
+                row_nums.append(row_num)
+                subject_list.append(subject_x)
+                desc_list.append(desc_x)
+                days_list.append(days_x)
+                time_list.append(time_x)
+
+            for lx in range(len(row_nums)):
+                sql_x = \
+                    f"UPDATE x_{shared.data_passing_var2} SET subject=%s, description=%s, days=%s, time=%s WHERE id=%s"
+                values_x = (subject_list[lx], desc_list[lx], days_list[lx], time_list[lx], row_nums[lx])
+                schedule_cursor2.execute(sql_x, values_x)
+                db_schedule2.commit()
+
             messagebox.showinfo("Employee Profile successfully updated", "Employee Profile was successfully updated.")
             edit_win.destroy()
 
@@ -238,16 +345,7 @@ def open_edit_subwin():
     attendance_win_btn = ttk.Button(master=edit_win, text="Open Employee's Attendance", command=open_attendance)
     attendance_win_btn.place(x=200, y=82)
 
-    background_pic = Image.open('transparent_logo.png')
-    background_pic = ImageTk.PhotoImage(background_pic)
-    bg_label = Label(master=edit_win, image=background_pic, borderwidth=0, highlightthickness=0)
-    bg_label.place(x=560, y=160)
-
     edit_win.protocol("WM_DELETE_WINDOW", exit_win)
     edit_win.bind("<Return>", lambda event: edit_data())
-
-    if shared.data_passing_var2 is None:
-        messagebox.showinfo("Edit Employee Profile", "Please select an employee profile to edit.")
-        edit_win.destroy()
 
     edit_win.mainloop()

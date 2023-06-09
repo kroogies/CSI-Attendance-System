@@ -26,7 +26,7 @@ import delete_attendance as dattd
 def edit_attendance_win():
 
     attendance_win = Toplevel()
-    attendance_win.geometry("750x450+250+100")
+    attendance_win.geometry("1060x450+250+100")
     attendance_win.title("Edit Employee Profile Attendance")
     attendance_win.resizable(False, False)
     attendance_win.config(bg="white")
@@ -36,16 +36,17 @@ def edit_attendance_win():
     attendance_win.iconphoto(False, final_icon)
 
     header = Image.open("banner.jpg")
-    header = header.resize((750, 60), Image.LANCZOS)
+    header = header.resize((1060, 60), Image.LANCZOS)
     header = ImageTk.PhotoImage(header)
     header_placeholder = Label(master=attendance_win, image=header, borderwidth=0, highlightthickness=0)
     header_placeholder.place(x=0, y=0)
 
     line_separator = "_______________________________________________________________________________________________" \
-                     "____________________________________________"
+                     "_______________________________________________________________________________________________" \
+                     "___________"
 
     line_separator2 = "______________________________________________________________________________________________" \
-                      "_" \
+                      "_________________________________________________________________" \
                       "________________________"
 
     line_sep = Label(master=attendance_win, text=line_separator, highlightthickness=0, borderwidth=0, bg='white')
@@ -73,16 +74,24 @@ def edit_attendance_win():
                            bg='white', font=('Century Gothic', 12))
     time_out_label.place(x=565, y=79)
 
+    hrs_worked = Label(master=attendance_win, text='HRS. WORKED', highlightthickness=0, borderwidth=0,
+                       bg='white', font=('Century Gothic', 12))
+    hrs_worked.place(x=715, y=79)
+
+    late = Label(master=attendance_win, text='LATE', highlightthickness=0, borderwidth=0,
+                 bg='white', font=('Century Gothic', 12))
+    late.place(x=900, y=79)
+
     desc_label = Label(master=attendance_win, text="Edit Employee Profile's Attendance Data",
                        highlightthickness=0, borderwidth=0, bg='white', font=('Century Gothic', 10))
     desc_label.place(x=360, y=410)
 
     table_canvas = Canvas(master=attendance_win, bg='white', highlightthickness=0,
-                          borderwidth=0, width=650, height=260)
+                          borderwidth=0, width=1000, height=260)
     table_canvas.place(x=46, y=120)
 
     scrollbar = ttk.Scrollbar(master=attendance_win, orient=VERTICAL, command=table_canvas.yview)
-    scrollbar.place(x=686, y=120, height=260)
+    scrollbar.place(x=1006, y=120, height=260)
 
     table_canvas.configure(yscrollcommand=scrollbar.set)
     table_canvas.bind('<Configure>', lambda e: table_canvas.configure(scrollregion=table_canvas.bbox("all")))
@@ -538,26 +547,35 @@ def edit_attendance_win():
             date_list = []
             time_in_list = []
             time_out_list = []
+            hours_worked_list = []
+            late_list = []
 
             row_nums.clear()
             date_list.clear()
             time_in_list.clear()
             time_out_list.clear()
+            hours_worked_list.clear()
+            late_list.clear()
 
             for row in entries:
                 row_num = row[0].get()
                 date = row[1].get()
                 time_in = row[2].get()
                 time_out = row[3].get()
+                hours_worked = row[4].get()
+                late_in = row[5].get()
 
                 row_nums.append(row_num)
                 date_list.append(date)
                 time_in_list.append(time_in)
                 time_out_list.append(time_out)
+                hours_worked_list.append(hours_worked)
+                late_list.append(late_in)
 
             for i in range(len(row_nums)):
-                sql = "UPDATE id_0007606744 SET date=%s, time_in=%s, time_out=%s WHERE id=%s"
-                values = (date_list[i], time_in_list[i], time_out_list[i], row_nums[i])
+                sql = f"UPDATE id_0007606744 SET date=%s, time_in=%s, time_out=%s, hours_worked=%s, late=%s WHERE id=%s"
+                values = (date_list[i], time_in_list[i], time_out_list[i],
+                          hours_worked_list[i], late_list[i], row_nums[i])
                 cursor1.execute(sql, values)
                 mydb1.commit()
 
@@ -571,26 +589,35 @@ def edit_attendance_win():
             date_list = []
             time_in_list = []
             time_out_list = []
+            hours_worked_list = []
+            late_list = []
 
             row_nums.clear()
             date_list.clear()
             time_in_list.clear()
             time_out_list.clear()
+            hours_worked_list.clear()
+            late_list.clear()
 
             for row in entries2:
                 row_num = row[0].get()
                 date = row[1].get()
                 time_in = row[2].get()
                 time_out = row[3].get()
+                hours_worked = row[4].get()
+                late_in = row[5].get()
 
                 row_nums.append(row_num)
                 date_list.append(date)
                 time_in_list.append(time_in)
                 time_out_list.append(time_out)
+                hours_worked_list.append(hours_worked)
+                late_list.append(late_in)
 
             for i in range(len(row_nums)):
-                sql = "UPDATE id_0008264524 SET date=%s, time_in=%s, time_out=%s WHERE id=%s"
-                values = (date_list[i], time_in_list[i], time_out_list[i], row_nums[i])
+                sql = f"UPDATE id_0008264524 SET date=%s, time_in=%s, time_out=%s, hours_worked=%s, late=%s WHERE id=%s"
+                values = (date_list[i], time_in_list[i], time_out_list[i],
+                          hours_worked_list[i], late_list[i], row_nums[i])
                 cursor2.execute(sql, values)
                 mydb2.commit()
 
@@ -604,26 +631,35 @@ def edit_attendance_win():
             date_list = []
             time_in_list = []
             time_out_list = []
+            hours_worked_list = []
+            late_list = []
 
             row_nums.clear()
             date_list.clear()
             time_in_list.clear()
             time_out_list.clear()
+            hours_worked_list.clear()
+            late_list.clear()
 
             for row in entries3:
                 row_num = row[0].get()
                 date = row[1].get()
                 time_in = row[2].get()
                 time_out = row[3].get()
+                hours_worked = row[4].get()
+                late_in = row[5].get()
 
                 row_nums.append(row_num)
                 date_list.append(date)
                 time_in_list.append(time_in)
                 time_out_list.append(time_out)
+                hours_worked_list.append(hours_worked)
+                late_list.append(late_in)
 
             for i in range(len(row_nums)):
-                sql = "UPDATE id_0008385348 SET date=%s, time_in=%s, time_out=%s WHERE id=%s"
-                values = (date_list[i], time_in_list[i], time_out_list[i], row_nums[i])
+                sql = f"UPDATE id_0008385348 SET date=%s, time_in=%s, time_out=%s, hours_worked=%s, late=%s WHERE id=%s"
+                values = (date_list[i], time_in_list[i], time_out_list[i],
+                          hours_worked_list[i], late_list[i], row_nums[i])
                 cursor3.execute(sql, values)
                 mydb3.commit()
 
@@ -637,26 +673,35 @@ def edit_attendance_win():
             date_list = []
             time_in_list = []
             time_out_list = []
+            hours_worked_list = []
+            late_list = []
 
             row_nums.clear()
             date_list.clear()
             time_in_list.clear()
             time_out_list.clear()
+            hours_worked_list.clear()
+            late_list.clear()
 
             for row in entries4:
                 row_num = row[0].get()
                 date = row[1].get()
                 time_in = row[2].get()
                 time_out = row[3].get()
+                hours_worked = row[4].get()
+                late_in = row[5].get()
 
                 row_nums.append(row_num)
                 date_list.append(date)
                 time_in_list.append(time_in)
                 time_out_list.append(time_out)
+                hours_worked_list.append(hours_worked)
+                late_list.append(late_in)
 
             for i in range(len(row_nums)):
-                sql = "UPDATE id_0008407268 SET date=%s, time_in=%s, time_out=%s WHERE id=%s"
-                values = (date_list[i], time_in_list[i], time_out_list[i], row_nums[i])
+                sql = f"UPDATE id_0008407268 SET date=%s, time_in=%s, time_out=%s, hours_worked=%s, late=%s WHERE id=%s"
+                values = (date_list[i], time_in_list[i], time_out_list[i],
+                          hours_worked_list[i], late_list[i], row_nums[i])
                 cursor4.execute(sql, values)
                 mydb4.commit()
 
@@ -670,26 +715,35 @@ def edit_attendance_win():
             date_list = []
             time_in_list = []
             time_out_list = []
+            hours_worked_list = []
+            late_list = []
 
             row_nums.clear()
             date_list.clear()
             time_in_list.clear()
             time_out_list.clear()
+            hours_worked_list.clear()
+            late_list.clear()
 
             for row in entries5:
                 row_num = row[0].get()
                 date = row[1].get()
                 time_in = row[2].get()
                 time_out = row[3].get()
+                hours_worked = row[4].get()
+                late_in = row[5].get()
 
                 row_nums.append(row_num)
                 date_list.append(date)
                 time_in_list.append(time_in)
                 time_out_list.append(time_out)
+                hours_worked_list.append(hours_worked)
+                late_list.append(late_in)
 
             for i in range(len(row_nums)):
-                sql = "UPDATE id_0008531832 SET date=%s, time_in=%s, time_out=%s WHERE id=%s"
-                values = (date_list[i], time_in_list[i], time_out_list[i], row_nums[i])
+                sql = f"UPDATE id_0008531832 SET date=%s, time_in=%s, time_out=%s, hours_worked=%s, late=%s WHERE id=%s"
+                values = (date_list[i], time_in_list[i], time_out_list[i],
+                          hours_worked_list[i], late_list[i], row_nums[i])
                 cursor5.execute(sql, values)
                 mydb5.commit()
 
@@ -703,26 +757,35 @@ def edit_attendance_win():
             date_list = []
             time_in_list = []
             time_out_list = []
+            hours_worked_list = []
+            late_list = []
 
             row_nums.clear()
             date_list.clear()
             time_in_list.clear()
             time_out_list.clear()
+            hours_worked_list.clear()
+            late_list.clear()
 
             for row in entries6:
                 row_num = row[0].get()
                 date = row[1].get()
                 time_in = row[2].get()
                 time_out = row[3].get()
+                hours_worked = row[4].get()
+                late_in = row[5].get()
 
                 row_nums.append(row_num)
                 date_list.append(date)
                 time_in_list.append(time_in)
                 time_out_list.append(time_out)
+                hours_worked_list.append(hours_worked)
+                late_list.append(late_in)
 
             for i in range(len(row_nums)):
-                sql = "UPDATE id_0008532623 SET date=%s, time_in=%s, time_out=%s WHERE id=%s"
-                values = (date_list[i], time_in_list[i], time_out_list[i], row_nums[i])
+                sql = f"UPDATE id_0008532623 SET date=%s, time_in=%s, time_out=%s, hours_worked=%s, late=%s WHERE id=%s"
+                values = (date_list[i], time_in_list[i], time_out_list[i],
+                          hours_worked_list[i], late_list[i], row_nums[i])
                 cursor6.execute(sql, values)
                 mydb6.commit()
 
@@ -736,26 +799,35 @@ def edit_attendance_win():
             date_list = []
             time_in_list = []
             time_out_list = []
+            hours_worked_list = []
+            late_list = []
 
             row_nums.clear()
             date_list.clear()
             time_in_list.clear()
             time_out_list.clear()
+            hours_worked_list.clear()
+            late_list.clear()
 
             for row in entries7:
                 row_num = row[0].get()
                 date = row[1].get()
                 time_in = row[2].get()
                 time_out = row[3].get()
+                hours_worked = row[4].get()
+                late_in = row[5].get()
 
                 row_nums.append(row_num)
                 date_list.append(date)
                 time_in_list.append(time_in)
                 time_out_list.append(time_out)
+                hours_worked_list.append(hours_worked)
+                late_list.append(late_in)
 
             for i in range(len(row_nums)):
-                sql = "UPDATE id_0008717702 SET date=%s, time_in=%s, time_out=%s WHERE id=%s"
-                values = (date_list[i], time_in_list[i], time_out_list[i], row_nums[i])
+                sql = f"UPDATE id_0008717702 SET date=%s, time_in=%s, time_out=%s, hours_worked=%s, late=%s WHERE id=%s"
+                values = (date_list[i], time_in_list[i], time_out_list[i],
+                          hours_worked_list[i], late_list[i], row_nums[i])
                 cursor7.execute(sql, values)
                 mydb7.commit()
 
@@ -769,26 +841,35 @@ def edit_attendance_win():
             date_list = []
             time_in_list = []
             time_out_list = []
+            hours_worked_list = []
+            late_list = []
 
             row_nums.clear()
             date_list.clear()
             time_in_list.clear()
             time_out_list.clear()
+            hours_worked_list.clear()
+            late_list.clear()
 
             for row in entries8:
                 row_num = row[0].get()
                 date = row[1].get()
                 time_in = row[2].get()
                 time_out = row[3].get()
+                hours_worked = row[4].get()
+                late_in = row[5].get()
 
                 row_nums.append(row_num)
                 date_list.append(date)
                 time_in_list.append(time_in)
                 time_out_list.append(time_out)
+                hours_worked_list.append(hours_worked)
+                late_list.append(late_in)
 
             for i in range(len(row_nums)):
-                sql = "UPDATE id_0008721967 SET date=%s, time_in=%s, time_out=%s WHERE id=%s"
-                values = (date_list[i], time_in_list[i], time_out_list[i], row_nums[i])
+                sql = f"UPDATE id_0008721967 SET date=%s, time_in=%s, time_out=%s, hours_worked=%s, late=%s WHERE id=%s"
+                values = (date_list[i], time_in_list[i], time_out_list[i],
+                          hours_worked_list[i], late_list[i], row_nums[i])
                 cursor8.execute(sql, values)
                 mydb8.commit()
 
@@ -802,26 +883,35 @@ def edit_attendance_win():
             date_list = []
             time_in_list = []
             time_out_list = []
+            hours_worked_list = []
+            late_list = []
 
             row_nums.clear()
             date_list.clear()
             time_in_list.clear()
             time_out_list.clear()
+            hours_worked_list.clear()
+            late_list.clear()
 
             for row in entries9:
                 row_num = row[0].get()
                 date = row[1].get()
                 time_in = row[2].get()
                 time_out = row[3].get()
+                hours_worked = row[4].get()
+                late_in = row[5].get()
 
                 row_nums.append(row_num)
                 date_list.append(date)
                 time_in_list.append(time_in)
                 time_out_list.append(time_out)
+                hours_worked_list.append(hours_worked)
+                late_list.append(late_in)
 
             for i in range(len(row_nums)):
-                sql = "UPDATE id_0008899484 SET date=%s, time_in=%s, time_out=%s WHERE id=%s"
-                values = (date_list[i], time_in_list[i], time_out_list[i], row_nums[i])
+                sql = f"UPDATE id_0008899484 SET date=%s, time_in=%s, time_out=%s, hours_worked=%s, late=%s WHERE id=%s"
+                values = (date_list[i], time_in_list[i], time_out_list[i],
+                          hours_worked_list[i], late_list[i], row_nums[i])
                 cursor9.execute(sql, values)
                 mydb9.commit()
 
@@ -835,26 +925,35 @@ def edit_attendance_win():
             date_list = []
             time_in_list = []
             time_out_list = []
+            hours_worked_list = []
+            late_list = []
 
             row_nums.clear()
             date_list.clear()
             time_in_list.clear()
             time_out_list.clear()
+            hours_worked_list.clear()
+            late_list.clear()
 
             for row in entries10:
                 row_num = row[0].get()
                 date = row[1].get()
                 time_in = row[2].get()
                 time_out = row[3].get()
+                hours_worked = row[4].get()
+                late_in = row[5].get()
 
                 row_nums.append(row_num)
                 date_list.append(date)
                 time_in_list.append(time_in)
                 time_out_list.append(time_out)
+                hours_worked_list.append(hours_worked)
+                late_list.append(late_in)
 
             for i in range(len(row_nums)):
-                sql = "UPDATE id_0009041509 SET date=%s, time_in=%s, time_out=%s WHERE id=%s"
-                values = (date_list[i], time_in_list[i], time_out_list[i], row_nums[i])
+                sql = f"UPDATE id_0009041509 SET date=%s, time_in=%s, time_out=%s, hours_worked=%s, late=%s WHERE id=%s"
+                values = (date_list[i], time_in_list[i], time_out_list[i],
+                          hours_worked_list[i], late_list[i], row_nums[i])
                 cursor10.execute(sql, values)
                 mydb10.commit()
 

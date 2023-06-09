@@ -30,7 +30,7 @@ import add_subwin_copy as asc
 import edit_subwin as es
 import view_profile as vpf
 import reports_win as rpw
-import rfid_x
+import rfid_x_test2
 
 
 # initialize database for useraccounts
@@ -53,7 +53,7 @@ cursor3 = mydb3.cursor()
 
 
 def initiate_mprg():
-    rfid_x.start_read_tag()
+    rfid_x_test2.start_read_tag()
 
     # window
     win = Tk()
