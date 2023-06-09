@@ -52,6 +52,15 @@ def show_del():
 
         attd_cursor2 = attd_db2.cursor()
 
+        schedule = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="minimumM4.",
+            database="employee_schedule"
+        )
+
+        schedule_cursor = schedule.cursor()
+
         mydb_x = mysql.connector.connect(
             host="localhost",
             user="root",
@@ -68,6 +77,9 @@ def show_del():
             id_cursor.execute("UPDATE available_ids SET status='unused' WHERE ids=%s",
                               (shared.data_passing_var2,))
 
+            schedule_cursor.execute(f"DROP TABLE x_{shared.data_passing_var2}")
+            schedule.commit()
+
             attd_cursor.execute(f"DELETE FROM id_{shared.data_passing_var2}")
             attd_db.commit()
 
@@ -76,6 +88,7 @@ def show_del():
 
             delete_db.commit()
             id_db.commit()
+
             messagebox.showinfo('Delete Employee Profile', 'Employee Profile successfully deleted.')
 
             shared.data_passing_var2 = None

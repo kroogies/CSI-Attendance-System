@@ -24,6 +24,10 @@ def open_view_subwin():
     view_win.resizable(False, False)
     view_win.config(bg="white")
 
+    if shared.data_passing_var2 is None:
+        messagebox.showinfo("View Employee Profile", "Please select an employee profile to view.")
+        view_win.destroy()
+
     view_win_icon = Image.open("logo.png")
     final_icon = ImageTk.PhotoImage(view_win_icon)
     view_win.iconphoto(False, final_icon)
@@ -93,6 +97,65 @@ def open_view_subwin():
     Label(master=view_win, text=linesep, fg='black', background="white", borderwidth=0,
           highlightthickness=0).place(x=20, y=100)
 
+    # schedule section
+    table_canvas = Canvas(master=view_win, bg='white', highlightthickness=0,
+                          borderwidth=0, width=473, height=260)
+    table_canvas.place(x=515, y=230)
+
+    frame = Frame(table_canvas, highlightthickness=0, borderwidth=0)
+    table_canvas.create_window((0, 0), window=frame, anchor="nw")
+
+    i = 0
+    entries = []
+
+    # Display 10 entry boxes
+    db_schedule = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="minimumM4.",
+        database="employee_schedule"
+    )
+
+    schedule_cursor = db_schedule.cursor()
+    schedule_cursor.execute(f"SELECT * FROM x_{shared.data_passing_var2}")
+    res = schedule_cursor.fetchall()
+
+    # Clear existing entries
+    entries = []
+
+    # Insert fetched data into entries
+    for row_index, row_data in enumerate(res):
+        row_entries = []
+        for col_index, col_data in enumerate(row_data):
+            table = ttk.Entry(frame, font=("Century Gothic", 8), foreground="black",
+                              background="white", width=14)
+            table.config(state="normal")
+            table.grid(row=row_index, column=col_index)
+            table.insert(END, str(col_data))
+            table.config(state='readonly')
+            row_entries.append(table)
+        entries.append(row_entries)
+
+    number = Label(master=view_win, text="NO#", borderwidth=0, highlightthickness=0,
+                   font=("Century Gothic", 12), bg="white")
+    number.place(x=540, y=197)
+
+    subject = Label(master=view_win, text="SUBJECT", borderwidth=0, highlightthickness=0,
+                    font=("Century Gothic", 12), bg="white")
+    subject.place(x=615, y=197)
+
+    desc = Label(master=view_win, text="DESC.", borderwidth=0, highlightthickness=0,
+                 font=("Century Gothic", 12), bg="white")
+    desc.place(x=715, y=197)
+
+    days = Label(master=view_win, text="DAYS", borderwidth=0, highlightthickness=0,
+                 font=("Century Gothic", 12), bg="white")
+    days.place(x=805, y=197)
+
+    time = Label(master=view_win, text="TIME", borderwidth=0, highlightthickness=0,
+                 font=("Century Gothic", 12), bg="white")
+    time.place(x=898, y=197)
+
     def preset_fields():
         database = mysql.connector.connect(
             host="localhost",
@@ -142,15 +205,6 @@ def open_view_subwin():
     attendance_win_btn = ttk.Button(master=view_win, text="Open Employee's Attendance", command=open_attendance)
     attendance_win_btn.place(x=60, y=82)
 
-    background_pic = Image.open('transparent_logo.png')
-    background_pic = ImageTk.PhotoImage(background_pic)
-    bg_label = Label(master=view_win, image=background_pic, borderwidth=0, highlightthickness=0)
-    bg_label.place(x=560, y=160)
-
     view_win.protocol("WM_DELETE_WINDOW", exit_win)
-
-    if shared.data_passing_var2 is None:
-        messagebox.showinfo("View Employee Profile", "Please select an employee profile to view.")
-        view_win.destroy()
 
     view_win.mainloop()
