@@ -15,7 +15,7 @@ import shared
 def view_attendance_win():
 
     view_atd_win = Toplevel()
-    view_atd_win.geometry("750x450+250+100")
+    view_atd_win.geometry("1060x450+250+100")
     view_atd_win.title("View Employee Profile Attendance")
     view_atd_win.resizable(False, False)
     view_atd_win.config(bg="white")
@@ -25,16 +25,17 @@ def view_attendance_win():
     view_atd_win.iconphoto(False, final_icon)
 
     header = Image.open("banner.jpg")
-    header = header.resize((750, 60), Image.LANCZOS)
+    header = header.resize((1060, 60), Image.LANCZOS)
     header = ImageTk.PhotoImage(header)
     header_placeholder = Label(master=view_atd_win, image=header, borderwidth=0, highlightthickness=0)
     header_placeholder.place(x=0, y=0)
 
     line_separator = "_______________________________________________________________________________________________" \
-                     "____________________________________________"
+                     "_______________________________________________________________________________________________" \
+                     "___________"
 
     line_separator2 = "______________________________________________________________________________________________" \
-                      "_" \
+                      "_________________________________________________________________" \
                       "________________________"
 
     line_sep = Label(master=view_atd_win, text=line_separator, highlightthickness=0, borderwidth=0, bg='white')
@@ -62,16 +63,24 @@ def view_attendance_win():
                            bg='white', font=('Century Gothic', 12))
     time_out_label.place(x=565, y=79)
 
+    hrs_worked = Label(master=view_atd_win, text='HRS. WORKED', highlightthickness=0, borderwidth=0,
+                       bg='white', font=('Century Gothic', 12))
+    hrs_worked.place(x=715, y=79)
+
+    late = Label(master=view_atd_win, text='LATE', highlightthickness=0, borderwidth=0,
+                 bg='white', font=('Century Gothic', 12))
+    late.place(x=900, y=79)
+
     desc_label = Label(master=view_atd_win, text="View Employee Profile's Attendance Data",
                        highlightthickness=0, borderwidth=0, bg='white', font=('Century Gothic', 11))
-    desc_label.place(x=230, y=407)
+    desc_label.place(x=340, y=407)
 
     table_canvas = Canvas(master=view_atd_win, bg='white', highlightthickness=0,
-                          borderwidth=0, width=650, height=260)
+                          borderwidth=0, width=1000, height=260)
     table_canvas.place(x=46, y=120)
 
     scrollbar = ttk.Scrollbar(master=view_atd_win, orient=VERTICAL, command=table_canvas.yview)
-    scrollbar.place(x=686, y=120, height=260)
+    scrollbar.place(x=1006, y=120, height=260)
 
     table_canvas.configure(yscrollcommand=scrollbar.set)
     table_canvas.bind('<Configure>', lambda e: table_canvas.configure(scrollregion=table_canvas.bbox("all")))
@@ -120,6 +129,8 @@ def view_attendance_win():
                     xz[1].config(state='readonly')
                     xz[2].config(state='readonly')
                     xz[3].config(state='readonly')
+                    xz[4].config(state='readonly')
+                    xz[5].config(state='readonly')
 
         if shared.data_passing_var2 == '0008264524':
             mydb2 = mysql.connector.connect(
@@ -459,6 +470,6 @@ def view_attendance_win():
     table_canvas.config(scrollregion=table_canvas.bbox("all"))
 
     cancel_btn = ttk.Button(master=view_atd_win, text='Exit', command=cancel_btn_func)
-    cancel_btn.place(x=100, y=405)
+    cancel_btn.place(x=200, y=405)
 
     view_atd_win.mainloop()

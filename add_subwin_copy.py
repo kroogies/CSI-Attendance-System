@@ -248,7 +248,55 @@ def open_add_window():
     refresh_page()
     insert_asterisk()
 
+    # schedule section
+    table_canvas = Canvas(master=add_win, bg='white', highlightthickness=0,
+                          borderwidth=0, width=473, height=260)
+    table_canvas.place(x=530, y=230)
+
+    frame = Frame(table_canvas, highlightthickness=0, borderwidth=0)
+    table_canvas.create_window((0, 0), window=frame, anchor="nw")
+
+    i = 0
+    entries = []
+
+    # Display 10 entry boxes
+    for displays in range(10):
+        row_entries = []
+        for j in range(4):  # Assuming you want 4 columns in each row
+            table = ttk.Entry(frame, font=("Century Gothic", 9), foreground="black",
+                              background="white", width=14)
+            table.config(state="normal")
+            table.grid(row=i, column=j)
+            row_entries.append(table)
+        entries.append(row_entries)
+        i += 1
+
+    subject = Label(master=add_win, text="SUBJECT", borderwidth=0, highlightthickness=0,
+                    font=("Century Gothic", 12), bg="white")
+    subject.place(x=543, y=197)
+
+    desc = Label(master=add_win, text="DESC.", borderwidth=0, highlightthickness=0,
+                 font=("Century Gothic", 12), bg="white")
+    desc.place(x=658, y=197)
+
+    days = Label(master=add_win, text="DAYS", borderwidth=0, highlightthickness=0,
+                 font=("Century Gothic", 12), bg="white")
+    days.place(x=768, y=197)
+
+    time = Label(master=add_win, text="TIME", borderwidth=0, highlightthickness=0,
+                 font=("Century Gothic", 12), bg="white")
+    time.place(x=870, y=197)
+
     def add_data():
+        db_schedule = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="minimumM4.",
+            database="employee_schedule"
+        )
+
+        schedule_cursor = db_schedule.cursor()
+
         db = mysql.connector.connect(
             host="localhost",
             user="root",
@@ -285,6 +333,31 @@ def open_add_window():
             try:
                 cursor.execute(sql, val)
                 db.commit()
+
+                table_query = f'''
+                CREATE TABLE x_{id_value} (
+                  id INT AUTO_INCREMENT PRIMARY KEY,
+                  subject VARCHAR(255),
+                  description VARCHAR(255),
+                  days VARCHAR(255),
+                  time VARCHAR(255)
+                )
+                                        '''
+
+                schedule_cursor.execute(table_query)
+
+                for row_entries_x in entries:
+                    has_values = any(entry.get() for entry in row_entries_x)
+                    if has_values:
+
+                        column_values = [entry.get() for entry in row_entries_x]
+                        query = f"INSERT INTO x_{id_value} (subject, description, days, time) VALUES (%s, %s, %s, %s)"
+
+                        schedule_cursor.execute(query,
+                                                (column_values[0], column_values[1],
+                                                 column_values[2], column_values[3]))
+                        db_schedule.commit()
+
                 messagebox.showinfo("Employee Profile Successfully created", "The employee profile was successfully"
                                                                              " created.")
 
@@ -305,10 +378,5 @@ def open_add_window():
 
     cancel_btn = ttk.Button(master=add_win, text="Cancel", style="Custom.TButton", command=exit_win)
     cancel_btn.place(x=120, y=82)
-
-    background_pic = Image.open('transparent_logo.png')
-    background_pic = ImageTk.PhotoImage(background_pic)
-    bg_label = Label(master=add_win, image=background_pic, borderwidth=0, highlightthickness=0)
-    bg_label.place(x=560, y=160)
 
     add_win.mainloop()

@@ -12,7 +12,7 @@ import csv
 def view_rpts_win():
 
     view_atd_win = Toplevel()
-    view_atd_win.geometry("820x500+250+100")
+    view_atd_win.geometry("1130x500+250+100")
     view_atd_win.title("Export Employee Attendance")
     view_atd_win.resizable(False, False)
     view_atd_win.config(bg="white")
@@ -22,13 +22,14 @@ def view_rpts_win():
     view_atd_win.iconphoto(False, final_icon)
 
     header = Image.open("banner.jpg")
-    header = header.resize((1000, 78), Image.LANCZOS)
+    header = header.resize((1130, 78), Image.LANCZOS)
     header = ImageTk.PhotoImage(header)
     header_placeholder = Label(master=view_atd_win, image=header, borderwidth=0, highlightthickness=0)
     header_placeholder.place(x=0, y=0)
 
     line_separator = "_______________________________________________________________________________________________" \
-                     "______________________________________________________________"
+                     "__________________________________________________________________________________________" \
+                     "_______________________________"
 
     Label(master=view_atd_win, text=line_separator, highlightthickness=0, borderwidth=0, bg='white').place(x=20, y=115)
 
@@ -56,10 +57,11 @@ def view_rpts_win():
 
     # all important stuff
     line_separator = "_______________________________________________________________________________________________" \
-                     "____________________________________________"
+                     "_______________________________________________________________________________________________" \
+                     "___________"
 
     line_separator2 = "______________________________________________________________________________________________" \
-                      "_" \
+                      "_________________________________________________________________" \
                       "________________________"
 
     line_sep = Label(master=view_atd_win, text=line_separator, highlightthickness=0, borderwidth=0, bg='white')
@@ -84,16 +86,24 @@ def view_rpts_win():
                            bg='white', font=('Century Gothic', 12))
     time_out_label.place(x=595, y=140)
 
+    hrs_worked = Label(master=view_atd_win, text='HRS. WORKED', highlightthickness=0, borderwidth=0,
+                       bg='white', font=('Century Gothic', 12))
+    hrs_worked.place(x=745, y=140)
+
+    late = Label(master=view_atd_win, text='LATE', highlightthickness=0, borderwidth=0,
+                 bg='white', font=('Century Gothic', 12))
+    late.place(x=920, y=140)
+
     desc_label = Label(master=view_atd_win, text="Report Generation",  # will change this to the total number of hours
                        highlightthickness=0, borderwidth=0, bg='white', font=('Century Gothic', 11))
     desc_label.place(x=340, y=463)
 
     table_canvas = Canvas(master=view_atd_win, bg='white', highlightthickness=0,
-                          borderwidth=0, width=650, height=260)
+                          borderwidth=0, width=1000, height=260)
     table_canvas.place(x=73, y=185)
 
     scrollbar = ttk.Scrollbar(master=view_atd_win, orient=VERTICAL, command=table_canvas.yview)
-    scrollbar.place(x=723, y=185, height=260)
+    scrollbar.place(x=1035, y=185, height=260)
 
     table_canvas.configure(yscrollcommand=scrollbar.set)
     table_canvas.bind('<Configure>', lambda e: table_canvas.configure(scrollregion=table_canvas.bbox("all")))
@@ -146,6 +156,8 @@ def view_rpts_win():
             date_str = date.strftime("%Y-%m-%d")
             filtered_dates2.append(date_str)
 
+        print(f'datesss {filtered_dates2}')
+
         # Prepare the SQL query with placeholders for the filtered dates
         query = "SELECT * FROM id_{} WHERE date IN ({})".format(shared2.data_passing_var2,
                                                                 ",".join(["%s"] * len(filtered_dates2)))
@@ -181,6 +193,8 @@ def view_rpts_win():
                 xz[1].config(state='readonly')
                 xz[2].config(state='readonly')
                 xz[3].config(state='readonly')
+                xz[4].config(state='readonly')
+                xz[5].config(state='readonly')
 
         mydb4 = mysql.connector.connect(
             host="localhost",
@@ -199,7 +213,7 @@ def view_rpts_win():
         total_hours_worked1 = 0
 
         for row in data:
-            row_id, date_str, time_in_str, time_out_str = row
+            row_id, date_str, time_in_str, time_out_str, hours_worked_str, late_str = row
 
             if time_in_str == 'None' or time_out_str == 'None':
                 continue
@@ -219,13 +233,13 @@ def view_rpts_win():
             # Add the hours worked to the total
             total_hours_worked1 += hours_worked
 
-        cover = Canvas(master=view_atd_win, highlightthickness=0, borderwidth=0, width=480, height=30, bg='white')
+        cover = Canvas(master=view_atd_win, highlightthickness=0, borderwidth=0, width=1500, height=30, bg='white')
         cover.place(x=180, y=463)
 
         desc_label_x = Label(master=view_atd_win,
-                             text=f"Total Hours Worked within the Last 7 Days: {total_hours_worked1} hours",
+                             text=f"Total Hours Worked within the Last 7 Days: {str(total_hours_worked1)} hours",
                              highlightthickness=0, borderwidth=0, bg='white', font=('Century Gothic', 11))
-        desc_label_x.place(x=200, y=463)
+        desc_label_x.place(x=320, y=463)
 
     def show_attendance_last_2_weeks():
         # show attendance
@@ -304,6 +318,8 @@ def view_rpts_win():
                 xz[1].config(state='readonly')
                 xz[2].config(state='readonly')
                 xz[3].config(state='readonly')
+                xz[4].config(state='readonly')
+                xz[5].config(state='readonly')
 
         mydb4 = mysql.connector.connect(
             host="localhost",
@@ -322,7 +338,7 @@ def view_rpts_win():
         total_hours_worked2 = 0
 
         for row in data:
-            row_id, date_str, time_in_str, time_out_str = row
+            row_id, date_str, time_in_str, time_out_str, hours_worked_str, late_str = row
 
             if time_in_str == 'None' or time_out_str == 'None':
                 continue
@@ -342,13 +358,13 @@ def view_rpts_win():
             # Add the hours worked to the total
             total_hours_worked2 += hours_worked
 
-        cover = Canvas(master=view_atd_win, highlightthickness=0, borderwidth=0, width=480, height=30, bg='white')
+        cover = Canvas(master=view_atd_win, highlightthickness=0, borderwidth=0, width=1050, height=30, bg='white')
         cover.place(x=180, y=463)
 
         desc_label_x = Label(master=view_atd_win,
                              text=f"Total Hours Worked within the Last 2 Weeks: {total_hours_worked2} hours",
                              highlightthickness=0, borderwidth=0, bg='white', font=('Century Gothic', 11))
-        desc_label_x.place(x=200, y=463)
+        desc_label_x.place(x=320, y=463)
 
     def show_attendance_last_30_days():
         # show attendance
@@ -427,6 +443,8 @@ def view_rpts_win():
                 xz[1].config(state='readonly')
                 xz[2].config(state='readonly')
                 xz[3].config(state='readonly')
+                xz[4].config(state='readonly')
+                xz[5].config(state='readonly')
 
         mydb4 = mysql.connector.connect(
             host="localhost",
@@ -445,7 +463,7 @@ def view_rpts_win():
         total_hours_worked3 = 0
 
         for row in data:
-            row_id, date_str, time_in_str, time_out_str = row
+            row_id, date_str, time_in_str, time_out_str, hours_worked_str, late_str = row
 
             if time_in_str == 'None' or time_out_str == 'None':
                 continue
@@ -465,13 +483,13 @@ def view_rpts_win():
             # Add the hours worked to the total
             total_hours_worked3 += hours_worked
 
-        cover = Canvas(master=view_atd_win, highlightthickness=0, borderwidth=0, width=480, height=30, bg='white')
+        cover = Canvas(master=view_atd_win, highlightthickness=0, borderwidth=0, width=1050, height=30, bg='white')
         cover.place(x=180, y=463)
 
         desc_label_x = Label(master=view_atd_win,
                              text=f"Total Hours Worked within the Last 30 Day: {total_hours_worked3} hours",
                              highlightthickness=0, borderwidth=0, bg='white', font=('Century Gothic', 11))
-        desc_label_x.place(x=200, y=463)
+        desc_label_x.place(x=320, y=463)
 
     def show_attendance_last_1_year():
         # show attendance
@@ -550,6 +568,8 @@ def view_rpts_win():
                 xz[1].config(state='readonly')
                 xz[2].config(state='readonly')
                 xz[3].config(state='readonly')
+                xz[4].config(state='readonly')
+                xz[5].config(state='readonly')
 
         mydb4 = mysql.connector.connect(
             host="localhost",
@@ -568,7 +588,7 @@ def view_rpts_win():
         total_hours_worked4 = 0
 
         for row in data:
-            row_id, date_str, time_in_str, time_out_str = row
+            row_id, date_str, time_in_str, time_out_str, hours_worked_str, late_str = row
 
             if time_in_str == 'None' or time_out_str == 'None':
                 continue
@@ -588,13 +608,13 @@ def view_rpts_win():
             # Add the hours worked to the total
             total_hours_worked4 += hours_worked
 
-        cover = Canvas(master=view_atd_win, highlightthickness=0, borderwidth=0, width=1000, height=30, bg='white')
+        cover = Canvas(master=view_atd_win, highlightthickness=0, borderwidth=0, width=1500, height=30, bg='white')
         cover.place(x=180, y=463)
 
         desc_label_x = Label(master=view_atd_win,
                              text=f"Total Hours Worked within One Year: {total_hours_worked4} hours",
                              highlightthickness=0, borderwidth=0, bg='white', font=('Century Gothic', 11))
-        desc_label_x.place(x=200, y=463)
+        desc_label_x.place(x=320, y=463)
 
     def callback(value):
         global filter_value
@@ -624,7 +644,7 @@ def view_rpts_win():
     # Create the Combobox widget
     dropdown = ttk.OptionMenu(view_atd_win, selected_option, *options, command=callback)
     dropdown.configure(cursor="hand2")
-    dropdown.place(x=470, y=93)
+    dropdown.place(x=800, y=93)
 
     # Set an initial value for the dropdown
     selected_option.set(options[0])
@@ -666,7 +686,7 @@ def view_rpts_win():
                     writer.writerow([" "])
 
                     # Write the header row
-                    header = ["Row Number", "Date", "Time In", "Time Out"]  # Replace with your column names
+                    header = ["Row Number", "Date", "Time In", "Time Out", "Hours Worked", "Late"]
                     writer.writerow(header)
 
                     # Write the data rows
@@ -693,7 +713,7 @@ def view_rpts_win():
                     writer.writerow([" "])
 
                     # Write the header row
-                    header = ["Row Number", "Date", "Time In", "Time Out"]  # Replace with your column names
+                    header = ["Row Number", "Date", "Time In", "Time Out", "Hours Worked", "Late"]
                     writer.writerow(header)
 
                     # Write the data rows
@@ -720,7 +740,7 @@ def view_rpts_win():
                     writer.writerow([" "])
 
                     # Write the header row
-                    header = ["Row Number", "Date", "Time In", "Time Out"]  # Replace with your column names
+                    header = ["Row Number", "Date", "Time In", "Time Out", "Hours Worked", "Late"]
                     writer.writerow(header)
 
                     # Write the data rows
@@ -747,7 +767,7 @@ def view_rpts_win():
                     writer.writerow([" "])
 
                     # Write the header row
-                    header = ["Row Number", "Date", "Time In", "Time Out"]  # Replace with your column names
+                    header = ["Row Number", "Date", "Time In", "Time Out", "Hours Worked", "Late"]
                     writer.writerow(header)
 
                     # Write the data rows
@@ -757,7 +777,7 @@ def view_rpts_win():
             messagebox.showinfo("CSV Successfully Exported", "Attendance Report successfully exported as CSV.")
 
     export_btn = ttk.Button(master=view_atd_win, text="Export CSV", width=15, cursor="hand2", command=export)
-    export_btn.place(x=570, y=93)
+    export_btn.place(x=900, y=93)
 
     def exit_win():
         view_atd_win.destroy()
